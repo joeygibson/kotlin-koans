@@ -16,10 +16,10 @@ class _29_Operators_Overloading {
     }
 
     @Test fun testOneMonth() {
-        assertEquals(MyDate(2016, 0, 27), task29_2(MyDate(2014, 0, 1)))
+        assertEquals(MyDate(2016, 1, 27), task29_2(MyDate(2014, 1, 1)))
     }
 
     @Test fun testMonthChange() {
-        assertEquals(MyDate(2016, 1, 20), task29_2(MyDate(2014, 0, 25)))
+        assertEquals(MyDate(2016, 2, 20), task29_2(MyDate(2014, 1, 25)))
     }
 }

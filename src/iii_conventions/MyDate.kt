@@ -19,10 +19,28 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparab
             TimeInterval.YEAR -> myDate.plusYears(1)
         }
 
-        return MyDate(retDate.year, retDate.monthValue, retDate.dayOfMonth)
+        return retDate.asMyDate()
     }
 
-    fun asLocalDate(): LocalDate = LocalDate.of(year, month, dayOfMonth)
+    operator fun plus(interval: RepeatedTimeInterval): MyDate {
+        val myDate = asLocalDate()
+
+        val retDate = when (interval.interval) {
+            TimeInterval.DAY -> myDate.plusDays(interval.n.toLong())
+            TimeInterval.WEEK -> myDate.plusWeeks(interval.n.toLong())
+            TimeInterval.YEAR -> myDate.plusYears(interval.n.toLong())
+        }
+
+        return retDate.asMyDate()
+    }
+
+    fun asLocalDate(): LocalDate {
+        return LocalDate.of(year, month, dayOfMonth)
+    }
+}
+
+fun LocalDate.asMyDate(): MyDate {
+    return MyDate(year, monthValue, dayOfMonth)
 }
 
 operator fun MyDate.rangeTo(other: MyDate): DateRange =
@@ -33,6 +51,11 @@ enum class TimeInterval {
     WEEK,
     YEAR
 }
+
+operator fun TimeInterval.times(n: Int): RepeatedTimeInterval =
+        RepeatedTimeInterval(this, n)
+
+class RepeatedTimeInterval(val interval: TimeInterval, val n: Int)
 
 class DateRange(val start: MyDate, val endInclusive: MyDate) : Iterable<MyDate> {
     override fun iterator(): Iterator<MyDate> {
