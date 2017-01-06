@@ -19,6 +19,13 @@ fun buildStringExample(): String {
     }
 }
 
+fun <K, V> buildMap(build: MutableMap<K, V>.() -> Unit): Map<K, V> {
+    val map: MutableMap<K, V> = mutableMapOf()
+    map.build()
+
+    return map
+}
+
 fun todoTask37(): Nothing = TODO(
     """
         Task 37.
@@ -29,11 +36,10 @@ fun todoTask37(): Nothing = TODO(
 )
 
 fun task37(): Map<Int, String> {
-    todoTask37()
-//    return buildMap {
-//        put(0, "0")
-//        for (i in 1..10) {
-//            put(i, "$i")
-//        }
-//    }
+    return buildMap {
+        put(0, "0")
+        for (i in 1..10) {
+            put(i, "$i")
+        }
+    }
 }
